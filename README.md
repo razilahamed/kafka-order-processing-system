@@ -16,11 +16,13 @@ Event-driven orders processing system built for a big-data / streaming assignmen
 ### Data Flow
 
 1. **Producer (`backend/producer.js`)**
+
    - Generates random `Order` events.
    - Serialises each order with **Avro** using `order.avsc`.
    - Publishes messages to Kafka topic **`orders`**.
 
 2. **Consumer + API (`backend/consumer-api.js`)**
+
    - Subscribes to **`orders`**.
    - Deserialises Avro payloads.
    - Applies business logic with **simulated transient failures**:
@@ -91,6 +93,7 @@ kafka-orders-event-driven-demo/
       index.css             # Tailwind entry (imports `@import "tailwindcss";`)
 
 ```
+
 ## How It Works
 
 - Producer generates random `Order` events every 1–2 seconds and publishes them to the `orders` topic (Avro-encoded).
@@ -100,6 +103,26 @@ kafka-orders-event-driven-demo/
 - Messages that still fail (or have deserialisation/permanent errors) are sent to the `orders-dlq` topic with an `errorReason` header.
 - The same consumer process exposes a REST API (`/metrics`, `/dlq`) which the React + Tailwind dashboard polls every second to render live stats and recent DLQ events.
 
+---
 
+## Quick start (light)
 
+- Ensure Kafka is running (local or via Docker Compose). Create topics: `orders`, `orders-dlq`.
+- Start the backend services (from project root or `backend/`):
 
+```powershell
+# install and run producer + consumer (example)
+cd backend
+npm install
+npm run producer   # starts producing random orders
+npm run consumer   # runs the consumer + REST API on port 4000
+```
+
+- Start the frontend dashboard (from project root):
+
+```powershell
+cd client
+npm install
+npm run dev
+# then open http://localhost:5173 (or the port shown by Vite)
+```
