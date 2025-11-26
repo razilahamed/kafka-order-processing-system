@@ -1,7 +1,7 @@
 {
-  "namespace": "com.example.kafka",
   "type": "record",
   "name": "Order",
+  "namespace": "com.example",
   "fields": [
     { "name": "orderId", "type": "string" },
     { "name": "product", "type": "string" },

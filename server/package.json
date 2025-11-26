@@ -1,0 +1,15 @@
+{
+  "name": "kafka-orders-backend",
+  "version": "1.0.0",
+  "main": "producer.js",
+  "scripts": {
+    "producer": "node producer.js",
+    "consumer": "node consumer-api.js"
+  },
+  "dependencies": {
+    "avsc": "^5.7.7",
+    "cors": "^2.8.5",
+    "express": "^4.19.0",
+    "kafkajs": "^2.2.4"
+  }
+}
