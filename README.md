@@ -15,13 +15,13 @@ Event-driven orders processing system built for a big-data / streaming assignmen
 
 ### Data Flow
 
-1. **Producer (`backend/producer.js`)**
+1. **Producer (`server/producer.js`)**
 
    - Generates random `Order` events.
    - Serialises each order with **Avro** using `order.avsc`.
    - Publishes messages to Kafka topic **`orders`**.
 
-2. **Consumer + API (`backend/consumer-api.js`)**
+2. **Consumer + API (`server/consumer-api.js`)**
 
    - Subscribes to **`orders`**.
    - Deserialises Avro payloads.
@@ -35,8 +35,8 @@ Event-driven orders processing system built for a big-data / streaming assignmen
      - `GET /metrics` → running averages snapshot.
      - `GET /dlq` → recent DLQ events (in-memory list).
 
-3. **Frontend (`frontend/`)**
-   - Polls the backend every second:
+3. **Frontend (`client/`)**
+   - Polls the server every second:
      - `GET http://localhost:4000/metrics`
      - `GET http://localhost:4000/dlq`
    - Renders:
@@ -77,13 +77,13 @@ Event-driven orders processing system built for a big-data / streaming assignmen
 ```text
 kafka-orders-event-driven-demo/
   docker-compose.yml        # Optional: Zookeeper + Kafka via Docker
-  backend/
+  server/
     package.json
     order.avsc              # Avro schema for Order events
     avro.js                 # Avro (de)serialisation helpers
     producer.js             # Kafka producer (random orders)
     consumer-api.js         # Kafka consumer + retry + DLQ + REST API
-  frontend/
+  client/
     package.json
     vite.config.js          # Vite + Tailwind plugin config
     index.html
@@ -108,11 +108,11 @@ kafka-orders-event-driven-demo/
 ## Quick start (light)
 
 - Ensure Kafka is running (local or via Docker Compose). Create topics: `orders`, `orders-dlq`.
-- Start the backend services (from project root or `backend/`):
+- Start the backend services (from project root or `server/`):
 
 ```powershell
 # install and run producer + consumer (example)
-cd backend
+cd server
 npm install
 npm run producer   # starts producing random orders
 npm run consumer   # runs the consumer + REST API on port 4000
