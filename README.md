@@ -1,4 +1,4 @@
-# Kafka Orders Event-Driven Demo
+# Kafka Orders Event-Driven System
 
 Event-driven orders processing system built for a big-data / streaming assignment:
 
